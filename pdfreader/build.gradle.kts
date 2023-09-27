@@ -45,6 +45,13 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
@@ -65,14 +72,14 @@ publishing {
             }
         }
 
-        register<MavenPublication>("debug") {
-            groupId = "de.artelsv"
-            artifactId = "pdf-reader"
-            version = "1.0.0"
-
-            afterEvaluate {
-                from(components["debug"])
-            }
-        }
+//        register<MavenPublication>("debug") {
+//            groupId = "de.artelsv"
+//            artifactId = "pdf-reader"
+//            version = "1.0.0"
+//
+//            afterEvaluate {
+//                from(components["debug"])
+//            }
+//        }
     }
 }
