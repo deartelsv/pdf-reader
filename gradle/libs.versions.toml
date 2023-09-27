@@ -12,6 +12,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
+com-android-library = { id = "com.android.library", version.ref = "agp" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
 
 [bundles]
