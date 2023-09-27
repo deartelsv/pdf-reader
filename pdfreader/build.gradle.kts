@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    id("maven-publish")
 }
 
 android {
@@ -31,8 +32,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
@@ -44,4 +45,21 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.androidx.recycler)
     implementation(libs.androidx.appcompat)
+}
+
+val androidSourcesJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("sources")
+    from(android.sourceSets.getByName("main").java.srcDirs)
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                groupId = "de.artelsv.pdfreader"
+                artifactId = "pdf-reader"
+                version = "1.0.0"
+            }
+        }
+    }
 }
