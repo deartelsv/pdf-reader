@@ -2,9 +2,7 @@ package de.artelsv.pdfreader.renderer
 
 import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
-import android.os.Build
 import android.os.ParcelFileDescriptor
-import androidx.annotation.RequiresApi
 import de.artelsv.pdfreader.utils.PdfPageQuality
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,7 +10,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class PdfPageRenderer(private val file: File, private val quality: PdfPageQuality) {
 
     private val pdfRenderer: PdfRenderer by lazy { openRenderer(file) }

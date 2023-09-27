@@ -1,9 +1,7 @@
 package de.artelsv.pdfreader
 
 import android.content.Context
-import android.os.Build
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import de.artelsv.pdfreader.controller.PdfViewController
 import de.artelsv.pdfreader.controller.PdfViewControllerImpl
 import de.artelsv.pdfreader.decoder.FileLoader
@@ -15,7 +13,6 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
 
-@RequiresApi(Build.VERSION_CODES.FROYO)
 class PdfViewer private constructor(
     pdfViewController: PdfViewController,
     rootView: ViewGroup,
@@ -62,7 +59,6 @@ class PdfViewer private constructor(
 
     companion object {
 
-        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         fun create(
             rootView: ViewGroup,
             pdfViewController: PdfViewController = PdfViewControllerImpl(rootView.context),

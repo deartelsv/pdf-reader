@@ -1,17 +1,14 @@
 package de.artelsv.pdfreader.controller
 
 import android.content.Context
-import android.os.Build
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import de.artelsv.pdfreader.view.adapter.DefaultPdfPageAdapter
 import de.artelsv.pdfreader.utils.PdfPageQuality
 import de.artelsv.pdfreader.view.ZoomableRecyclerView
+import de.artelsv.pdfreader.view.adapter.DefaultPdfPageAdapter
 import java.io.File
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class PdfViewControllerImpl(
     context: Context
 ) : PdfViewController {

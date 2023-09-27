@@ -1,14 +1,11 @@
 package de.artelsv.pdfreader.view.adapter
 
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
-import de.artelsv.pdfreader.utils.PdfPageQuality
 import de.artelsv.pdfreader.databinding.PdfPageBinding
+import de.artelsv.pdfreader.utils.PdfPageQuality
 import java.io.File
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class DefaultPdfPageAdapter(
     file: File,
     quality: PdfPageQuality

@@ -2,14 +2,11 @@ package de.artelsv.pdfreader.view
 
 import android.content.Context
 import android.graphics.Canvas
-import android.os.Build
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.ScaleGestureDetector.OnScaleGestureListener
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 
-@RequiresApi(Build.VERSION_CODES.FROYO)
 open class ZoomableRecyclerView(
     context: Context
 ) : RecyclerView(context, null), OnScaleGestureListener {

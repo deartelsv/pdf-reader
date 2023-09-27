@@ -11,7 +11,7 @@ androidx-recycler = { group = "androidx.recyclerview", name = "recyclerview", ve
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 
 [plugins]
-com-android-library = { id = "com.android.library", version.ref = "agp" }
+com-android-application = { id = "com.android.application", version.ref = "agp" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
 
 [bundles]

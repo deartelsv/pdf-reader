@@ -1,15 +1,12 @@
 package de.artelsv.pdfreader.view.adapter
 
 import android.graphics.Bitmap
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import de.artelsv.pdfreader.renderer.PdfPageRenderer
 import de.artelsv.pdfreader.utils.PdfPageQuality
 import java.io.File
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 abstract class PdfPagesAdapter<T : PdfPageViewHolder>(
     private val pdfFile: File,
     private val quality: PdfPageQuality
