@@ -2,7 +2,7 @@
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
-    id("maven-publish").apply(true)
+    id("maven-publish")
 }
 
 android {
@@ -32,8 +32,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
@@ -51,11 +51,6 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.androidx.recycler)
     implementation(libs.androidx.appcompat)
-}
-
-val androidSourcesJar by tasks.registering(Jar::class) {
-    archiveClassifier.set("sources")
-    from(android.sourceSets.getByName("main").java.srcDirs)
 }
 
 publishing {
