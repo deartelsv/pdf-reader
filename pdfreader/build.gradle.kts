@@ -29,7 +29,7 @@ android {
         }
 
         getByName("debug") {
-            isDebuggable = true
+            matchingFallbacks.add("release")
         }
     }
 
@@ -44,11 +44,6 @@ android {
 
     kotlinOptions {
         jvmTarget = "17"
-    }
-
-    publishing {
-        singleVariant("release") { withSourcesJar() }
-        singleVariant("debug") { withSourcesJar() }
     }
 }
 
