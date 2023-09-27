@@ -2,7 +2,7 @@
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
-//    id("maven-publish")
+    id("maven-publish")
 }
 
 android {
@@ -20,12 +20,17 @@ android {
     }
 
     buildTypes {
-        release {
+        getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
+        }
+
+        getByName("debug") {
+            isDebuggable = true
         }
     }
 
@@ -42,15 +47,15 @@ android {
         jvmTarget = "17"
     }
 
-//    publishing {
-//        singleVariant("release") {
-//            withSourcesJar()
-//        }
-//
-//        singleVariant("debug") {
-//            withSourcesJar()
-//        }
-//    }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+
+        singleVariant("debug") {
+            withSourcesJar()
+        }
+    }
 }
 
 dependencies {
@@ -59,16 +64,16 @@ dependencies {
     implementation(libs.androidx.appcompat)
 }
 
-//publishing {
-//    publications {
-//        register<MavenPublication>("release") {
-//            groupId = "de.artelsv"
-//            artifactId = "pdf-reader"
-//            version = "1.0.0"
-//
-//            afterEvaluate {
-//                from(components["release"])
-//            }
-//        }
-//    }
-//}
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "de.artelsv"
+            artifactId = "pdf-reader"
+            version = "1.0.0"
+
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
+}
