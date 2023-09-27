@@ -47,9 +47,8 @@ android {
     }
 
     publishing {
-        singleVariant("release") {
-            withSourcesJar()
-        }
+        singleVariant("release") { withSourcesJar() }
+        singleVariant("debug") { withSourcesJar() }
     }
 }
 
@@ -68,6 +67,16 @@ publishing {
 
             afterEvaluate {
                 from(components["release"])
+            }
+        }
+
+        register<MavenPublication>("debug") {
+            groupId = "de.artelsv"
+            artifactId = "pdf-reader"
+            version = "1.0.0"
+
+            afterEvaluate {
+                from(components["debug"])
             }
         }
     }
