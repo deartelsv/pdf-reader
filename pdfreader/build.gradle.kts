@@ -39,6 +39,12 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
 }
 
 dependencies {
@@ -52,13 +58,15 @@ val androidSourcesJar by tasks.registering(Jar::class) {
     from(android.sourceSets.getByName("main").java.srcDirs)
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            create<MavenPublication>("release") {
-                groupId = "de.artelsv.pdfreader"
-                artifactId = "pdf-reader"
-                version = "1.0.0"
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "de.artelsv"
+            artifactId = "pdf-reader"
+            version = "1.0.0"
+
+            afterEvaluate {
+                from(components["release"])
             }
         }
     }
