@@ -13,6 +13,8 @@ android {
         applicationId = "de.artelsv.pdfreader"
         minSdk = 21
         targetSdk = 33
+        versionCode = 1
+        version = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
