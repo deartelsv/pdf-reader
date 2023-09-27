@@ -50,10 +50,6 @@ android {
         singleVariant("release") {
             withSourcesJar()
         }
-
-        singleVariant("debug") {
-            withSourcesJar()
-        }
     }
 }
 
@@ -63,16 +59,16 @@ dependencies {
     implementation(libs.androidx.appcompat)
 }
 
-//publishing {
-//    publications {
-//        register<MavenPublication>("release") {
-//            groupId = "de.artelsv"
-//            artifactId = "pdf-reader"
-//            version = "1.0.0"
-//
-//            afterEvaluate {
-//                from(components["release"])
-//            }
-//        }
-//    }
-//}
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "de.artelsv"
+            artifactId = "pdf-reader"
+            version = "1.0.0"
+
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
+}
