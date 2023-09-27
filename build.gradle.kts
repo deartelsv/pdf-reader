@@ -6,6 +6,6 @@ plugins {
 }
 
 group = "de.artelsv.pdfreader"
-version = "1.1.3"
+version = "1.1.4"
 
 true // Needed to make the Suppress annotation work for the plugins block

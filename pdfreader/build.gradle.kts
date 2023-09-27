@@ -60,6 +60,8 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.androidx.recycler)
     implementation(libs.androidx.appcompat)
+    implementation(libs.commons.io)
+    implementation(libs.okHttp)
 }
 
 publishing {
@@ -67,7 +69,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "de.artelsv"
             artifactId = "pdf-reader"
-            version = "1.1.3"
+            version = "1.1.4"
 
             afterEvaluate {
                 from(components["release"])
@@ -77,7 +79,7 @@ publishing {
         register<MavenPublication>("debug") {
             groupId = "de.artelsv"
             artifactId = "pdf-reader"
-            version = "1.1.3"
+            version = "1.1.4"
 
             afterEvaluate {
                 from(components["debug"])

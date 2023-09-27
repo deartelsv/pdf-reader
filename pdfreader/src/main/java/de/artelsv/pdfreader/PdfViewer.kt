@@ -2,26 +2,25 @@ package de.artelsv.pdfreader
 
 import android.content.Context
 import android.view.ViewGroup
+import de.artelsv.pdfreader.controller.Header
 import de.artelsv.pdfreader.controller.PdfViewController
 import de.artelsv.pdfreader.controller.PdfViewControllerImpl
 import de.artelsv.pdfreader.decoder.FileLoader
 import de.artelsv.pdfreader.errors.Error
 import de.artelsv.pdfreader.utils.PdfPageQuality
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
 
 class PdfViewer private constructor(
     pdfViewController: PdfViewController,
     rootView: ViewGroup,
+    private val headers: List<Header>,
     private val errorListener: (error: Error) -> Unit
 ) : PdfViewController by pdfViewController {
 
     private val context: Context by lazy { rootView.context }
 
-    private val fileLoader by lazy { FileLoader() }
+    private val fileLoader by lazy { FileLoader(headers) }
 
     init {
         try {
@@ -46,15 +45,16 @@ class PdfViewer private constructor(
     }
 
     fun load(url: String) {
-        CoroutineScope(Dispatchers.Main).launch {
-            runCatching {
-                fileLoader.loadFile(context, url)
-            }.onFailure {
-                errorListener(Error.FileLoadError(it))
-            }.onSuccess {
+        fileLoader.loadFile(
+            context = context,
+            url = url,
+            onFileDownloaded = {
                 display(it)
+            },
+            onError = {
+                errorListener(it)
             }
-        }
+        )
     }
 
     companion object {
@@ -66,12 +66,14 @@ class PdfViewer private constructor(
             maxZoom: Float = 3f,
             minZoom: Float = 1f,
             isZoomEnabled: Boolean = true,
+            headers: List<Header> = emptyList(),
             onPageChangedListener: (page: Int, total: Int) -> Unit,
             onErrorListener: (error: Error) -> Unit
         ): PdfViewer {
             val pdfViewer = PdfViewer(
                 pdfViewController = pdfViewController,
                 rootView = rootView,
+                headers = headers,
                 errorListener = onErrorListener
             )
             pdfViewController.setQuality(quality)
