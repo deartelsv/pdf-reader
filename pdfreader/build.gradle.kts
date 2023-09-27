@@ -46,6 +46,10 @@ android {
         singleVariant("release") {
             withSourcesJar()
         }
+
+        singleVariant("debug") {
+            withSourcesJar()
+        }
     }
 }
 
