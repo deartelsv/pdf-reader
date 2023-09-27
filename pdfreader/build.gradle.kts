@@ -1,8 +1,8 @@
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    alias(libs.plugins.com.android.library)
+    alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
-//    id("maven-publish")
+    id("maven-publish")
 }
 
 android {
@@ -10,29 +10,28 @@ android {
     compileSdk = 33
 
     defaultConfig {
-//        applicationId = "de.artelsv.pdfreader"
-//        minSdk = 21
-//        targetSdk = 33
-//        versionCode = 1
-//        version = "1.0.0"
+        applicationId = "de.artelsv.pdfreader"
+        minSdk = 21
+        targetSdk = 33
+        versionCode = 1
+        version = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-//    buildTypes {
-//        getByName("release") {
-//            isMinifyEnabled = false
-//            proguardFiles(
-//                getDefaultProguardFile("proguard-android-optimize.txt"),
-//                "proguard-rules.pro"
-//            )
-//            signingConfig = signingConfigs.getByName("release")
-//        }
-//
-//        getByName("debug") {
-//            isDebuggable = true
-//        }
-//    }
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+
+        getByName("debug") {
+            isDebuggable = true
+        }
+    }
 
     buildFeatures {
         viewBinding = true
