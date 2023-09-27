@@ -30,8 +30,22 @@ android {
 
         getByName("debug") {
             matchingFallbacks.add("release")
+            isDebuggable = true
         }
     }
+    flavorDimensions += listOf("version")
+
+//    productFlavors {
+//        create("develop") {
+//            dimension = "version"
+//            applicationIdSuffix = ".test"
+//            versionNameSuffix = "-develop"
+//        }
+//        create("production") {
+//            dimension = "version"
+//            versionNameSuffix = ""
+//        }
+//    }
 
     buildFeatures {
         viewBinding = true
@@ -51,6 +65,11 @@ android {
             withSourcesJar()
             withJavadocJar()
         }
+
+        singleVariant("debug") {
+            withSourcesJar()
+            withJavadocJar()
+        }
     }
 }
 
@@ -65,21 +84,21 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "de.artelsv"
             artifactId = "pdf-reader"
-            version = "1.0.0"
+            version = "1.1.2"
 
             afterEvaluate {
                 from(components["release"])
             }
         }
 
-//        register<MavenPublication>("debug") {
-//            groupId = "de.artelsv"
-//            artifactId = "pdf-reader"
-//            version = "1.0.0"
-//
-//            afterEvaluate {
-//                from(components["debug"])
-//            }
-//        }
+        register<MavenPublication>("debug") {
+            groupId = "de.artelsv"
+            artifactId = "pdf-reader"
+            version = "1.1.2"
+
+            afterEvaluate {
+                from(components["debug"])
+            }
+        }
     }
 }
