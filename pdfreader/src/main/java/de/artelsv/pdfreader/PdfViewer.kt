@@ -8,6 +8,9 @@ import de.artelsv.pdfreader.controller.PdfViewControllerImpl
 import de.artelsv.pdfreader.decoder.FileLoader
 import de.artelsv.pdfreader.errors.Error
 import de.artelsv.pdfreader.utils.PdfPageQuality
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
 
@@ -32,7 +35,9 @@ class PdfViewer private constructor(
 
     private fun display(file: File) {
         try {
-            setup(file)
+            CoroutineScope(Dispatchers.Main).launch {
+                setup(file)
+            }
         } catch (e: IOException) {
             errorListener(Error.PdfRendererError(e))
         } catch (e: Exception) {

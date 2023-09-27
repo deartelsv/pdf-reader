@@ -69,7 +69,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "de.artelsv"
             artifactId = "pdf-reader"
-            version = "1.1.4"
+            version = "1.1.5"
 
             afterEvaluate {
                 from(components["release"])
@@ -79,7 +79,7 @@ publishing {
         register<MavenPublication>("debug") {
             groupId = "de.artelsv"
             artifactId = "pdf-reader"
-            version = "1.1.4"
+            version = "1.1.5"
 
             afterEvaluate {
                 from(components["debug"])
