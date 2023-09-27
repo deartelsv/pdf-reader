@@ -1,6 +1,6 @@
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    alias(libs.plugins.com.android.application)
+    alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
     id("maven-publish")
 }
@@ -10,13 +10,15 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "de.artelsv.pdfreader"
-        minSdk = 21
-        targetSdk = 33
-        versionCode = 1
-        version = "1.0.0"
+        aarMetadata {
+            minCompileSdk = 21
+        }
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    testFixtures {
+        enable = true
     }
 
     buildTypes {
@@ -30,22 +32,8 @@ android {
 
         getByName("debug") {
             matchingFallbacks.add("release")
-            isDebuggable = true
         }
     }
-    flavorDimensions += listOf("version")
-
-//    productFlavors {
-//        create("develop") {
-//            dimension = "version"
-//            applicationIdSuffix = ".test"
-//            versionNameSuffix = "-develop"
-//        }
-//        create("production") {
-//            dimension = "version"
-//            versionNameSuffix = ""
-//        }
-//    }
 
     buildFeatures {
         viewBinding = true
@@ -61,13 +49,8 @@ android {
     }
 
     publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
-        }
-
-        singleVariant("debug") {
-            withSourcesJar()
+        multipleVariants {
+            allVariants()
             withJavadocJar()
         }
     }
@@ -84,7 +67,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "de.artelsv"
             artifactId = "pdf-reader"
-            version = "1.1.2"
+            version = "1.1.3"
 
             afterEvaluate {
                 from(components["release"])
@@ -94,7 +77,7 @@ publishing {
         register<MavenPublication>("debug") {
             groupId = "de.artelsv"
             artifactId = "pdf-reader"
-            version = "1.1.2"
+            version = "1.1.3"
 
             afterEvaluate {
                 from(components["debug"])
