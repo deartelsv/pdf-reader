@@ -12,6 +12,8 @@ interface PdfViewController {
 
     fun setZoomEnabled(isZoomEnabled: Boolean)
 
+    fun setZoomFixed(value: Boolean)
+
     fun setMaxZoom(value: Float)
     fun setMinZoom(value: Float)
 

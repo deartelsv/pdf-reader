@@ -18,12 +18,15 @@ class PdfViewer private constructor(
     pdfViewController: PdfViewController,
     rootView: ViewGroup,
     private val headers: List<Header>,
-    private val errorListener: (error: Error) -> Unit
+    private val errorListener: (error: Error) -> Unit,
+    private val completeListener: PdfViewer.() -> Unit
 ) : PdfViewController by pdfViewController {
 
     private val context: Context by lazy { rootView.context }
 
     private val fileLoader by lazy { FileLoader(headers) }
+
+    val cacheFiles = hashMapOf<String, File>()
 
     init {
         try {
@@ -43,6 +46,7 @@ class PdfViewer private constructor(
         } catch (e: Exception) {
             errorListener(Error.AttachViewError(e))
         }
+        completeListener()
     }
 
     fun load(file: File) {
@@ -50,10 +54,13 @@ class PdfViewer private constructor(
     }
 
     fun load(url: String) {
-        fileLoader.loadFile(
+        cacheFiles[url]?.let {
+            display(it)
+        } ?: fileLoader.loadFile(
             context = context,
             url = url,
             onFileDownloaded = {
+                cacheFiles[url] = it
                 display(it)
             },
             onError = {
@@ -71,15 +78,20 @@ class PdfViewer private constructor(
             maxZoom: Float = 3f,
             minZoom: Float = 1f,
             isZoomEnabled: Boolean = true,
+            isFixedZoom: Boolean = false,
             headers: List<Header> = emptyList(),
-            onPageChangedListener: (page: Int, total: Int) -> Unit,
-            onErrorListener: (error: Error) -> Unit
+            onPageChangedListener: (page: Int, total: Int) -> Unit = { _, _ -> },
+            onErrorListener: (error: Error) -> Unit = { },
+            onStartListener: () -> Unit = { },
+            onCompletedListener: PdfViewer.() -> Unit = { }
         ): PdfViewer {
+            onStartListener()
             val pdfViewer = PdfViewer(
                 pdfViewController = pdfViewController,
                 rootView = rootView,
                 headers = headers,
-                errorListener = onErrorListener
+                errorListener = onErrorListener,
+                completeListener = onCompletedListener
             )
             pdfViewController.setQuality(quality)
             pdfViewController.setZoomEnabled(isZoomEnabled)

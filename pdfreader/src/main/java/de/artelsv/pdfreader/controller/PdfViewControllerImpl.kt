@@ -28,6 +28,10 @@ class PdfViewControllerImpl(
         view.addOnScrollListener(onScrollListener)
     }
 
+    override fun setZoomFixed(value: Boolean) {
+        view.isFixedZoom = value
+    }
+
     override fun setMaxZoom(value: Float) {
         view.maxZoom = value
     }

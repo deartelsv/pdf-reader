@@ -12,6 +12,7 @@ open class ZoomableRecyclerView(
 ) : RecyclerView(context, null), OnScaleGestureListener {
 
     var isZoomEnabled: Boolean = true
+    var isFixedZoom: Boolean = false
     var minZoom: Float = 1f
     var maxZoom: Float = 3f
 
@@ -54,7 +55,7 @@ open class ZoomableRecyclerView(
     }
 
     private fun updateCanvas(canvas: Canvas) {
-        if (!isScaling) {
+        if (!isScaling && !isFixedZoom) {
             decreaseScale()
         }
 
@@ -102,7 +103,7 @@ open class ZoomableRecyclerView(
         }
     }
 
-    override fun onScale(detector: ScaleGestureDetector) : Boolean {
+    override fun onScale(detector: ScaleGestureDetector): Boolean {
         if (isZoomEnabled) {
             focusX = -detector.focusX
             focusY = -detector.focusY
@@ -114,7 +115,7 @@ open class ZoomableRecyclerView(
         return true
     }
 
-    override fun onScaleBegin(detector: ScaleGestureDetector) : Boolean {
+    override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
         isScaling = true
         onScaleChanged()
         scaleFocusX = detector.focusX
