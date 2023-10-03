@@ -46,7 +46,9 @@ class PdfViewer private constructor(
         } catch (e: Exception) {
             errorListener(Error.AttachViewError(e))
         }
-        completeListener()
+        CoroutineScope(Dispatchers.Main).launch {
+            completeListener()
+        }
     }
 
     fun load(file: File) {
