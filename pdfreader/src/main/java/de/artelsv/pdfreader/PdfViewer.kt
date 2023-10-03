@@ -18,6 +18,7 @@ class PdfViewer private constructor(
     pdfViewController: PdfViewController,
     rootView: ViewGroup,
     private val headers: List<Header>,
+    private val isCacheEnabled: Boolean,
     private val errorListener: (error: Error) -> Unit,
     private val completeListener: () -> Unit
 ) : PdfViewController by pdfViewController {
@@ -26,7 +27,7 @@ class PdfViewer private constructor(
 
     private val fileLoader by lazy { FileLoader(headers) }
 
-    val cacheFiles = hashMapOf<String, File>()
+    private val cacheFiles = hashMapOf<String, File>()
 
     init {
         try {
@@ -56,19 +57,32 @@ class PdfViewer private constructor(
     }
 
     fun load(url: String) {
-        cacheFiles[url]?.let {
-            display(it)
-        } ?: fileLoader.loadFile(
-            context = context,
-            url = url,
-            onFileDownloaded = {
-                cacheFiles[url] = it
+        if (isCacheEnabled) {
+            cacheFiles[url]?.let {
                 display(it)
-            },
-            onError = {
-                errorListener(it)
-            }
-        )
+            } ?: fileLoader.loadFile(
+                context = context,
+                url = url,
+                onFileDownloaded = {
+                    cacheFiles[url] = it
+                    display(it)
+                },
+                onError = {
+                    errorListener(it)
+                }
+            )
+        } else {
+            fileLoader.loadFile(
+                context = context,
+                url = url,
+                onFileDownloaded = {
+                    display(it)
+                },
+                onError = {
+                    errorListener(it)
+                }
+            )
+        }
     }
 
     companion object {
@@ -82,6 +96,7 @@ class PdfViewer private constructor(
             isZoomEnabled: Boolean = true,
             isFixedZoom: Boolean = false,
             headers: List<Header> = emptyList(),
+            isCacheEnabled: Boolean = false,
             onPageChangedListener: (page: Int, total: Int) -> Unit = { _, _ -> },
             onErrorListener: (error: Error) -> Unit = { },
             onStartListener: () -> Unit = { },
@@ -92,6 +107,7 @@ class PdfViewer private constructor(
                 pdfViewController = pdfViewController,
                 rootView = rootView,
                 headers = headers,
+                isCacheEnabled = isCacheEnabled,
                 errorListener = onErrorListener,
                 completeListener = onCompletedListener
             )
