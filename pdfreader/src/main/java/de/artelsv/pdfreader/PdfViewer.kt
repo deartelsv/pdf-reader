@@ -19,7 +19,7 @@ class PdfViewer private constructor(
     rootView: ViewGroup,
     private val headers: List<Header>,
     private val errorListener: (error: Error) -> Unit,
-    private val completeListener: PdfViewer.() -> Unit
+    private val completeListener: () -> Unit
 ) : PdfViewController by pdfViewController {
 
     private val context: Context by lazy { rootView.context }
@@ -83,7 +83,7 @@ class PdfViewer private constructor(
             onPageChangedListener: (page: Int, total: Int) -> Unit = { _, _ -> },
             onErrorListener: (error: Error) -> Unit = { },
             onStartListener: () -> Unit = { },
-            onCompletedListener: PdfViewer.() -> Unit = { }
+            onCompletedListener: () -> Unit = { }
         ): PdfViewer {
             onStartListener()
             val pdfViewer = PdfViewer(
@@ -95,6 +95,7 @@ class PdfViewer private constructor(
             )
             pdfViewController.setQuality(quality)
             pdfViewController.setZoomEnabled(isZoomEnabled)
+            pdfViewController.setZoomFixed(isFixedZoom)
             pdfViewController.setMaxZoom(maxZoom)
             pdfViewController.setMinZoom(minZoom)
             pdfViewController.setOnPageChangedListener(onPageChangedListener)
