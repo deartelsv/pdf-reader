@@ -20,6 +20,7 @@ class PdfViewer private constructor(
     private val headers: List<Header>,
     private val isCacheEnabled: Boolean,
     private val errorListener: (error: Error) -> Unit,
+    private val startListener: () -> Unit,
     private val completeListener: () -> Unit
 ) : PdfViewController by pdfViewController {
 
@@ -57,6 +58,7 @@ class PdfViewer private constructor(
     }
 
     fun load(url: String) {
+        startListener()
         if (isCacheEnabled) {
             cacheFiles[url]?.let {
                 display(it)
@@ -102,13 +104,13 @@ class PdfViewer private constructor(
             onStartListener: () -> Unit = { },
             onCompletedListener: () -> Unit = { }
         ): PdfViewer {
-            onStartListener()
             val pdfViewer = PdfViewer(
                 pdfViewController = pdfViewController,
                 rootView = rootView,
                 headers = headers,
                 isCacheEnabled = isCacheEnabled,
                 errorListener = onErrorListener,
+                startListener = onStartListener,
                 completeListener = onCompletedListener
             )
             pdfViewController.setQuality(quality)
