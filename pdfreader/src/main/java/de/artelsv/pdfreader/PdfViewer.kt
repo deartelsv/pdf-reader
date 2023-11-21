@@ -38,19 +38,12 @@ class PdfViewer private constructor(
         }
     }
 
-    private fun display(file: File) {
-        try {
-            CoroutineScope(Dispatchers.Main).launch {
-                setup(file)
-            }
-        } catch (e: IOException) {
-            errorListener(Error.PdfRendererError(e))
-        } catch (e: Exception) {
-            errorListener(Error.AttachViewError(e))
-        }
-        CoroutineScope(Dispatchers.Main).launch {
-            completeListener()
-        }
+    private fun display(file: File) = CoroutineScope(Dispatchers.Main).launch {
+        setup(
+            file = file,
+            onError = { errorListener(Error.PdfRendererError(it)) }
+        )
+        completeListener()
     }
 
     fun load(file: File) {

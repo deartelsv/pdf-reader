@@ -2,35 +2,25 @@ package de.artelsv.pdfreader.renderer
 
 import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
-import android.os.ParcelFileDescriptor
 import de.artelsv.pdfreader.utils.PdfPageQuality
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
 
-class PdfPageRenderer(private val file: File, private val quality: PdfPageQuality) {
-
-    private val pdfRenderer: PdfRenderer by lazy { openRenderer(file) }
-
-    val pageCount: Int by lazy { pdfRenderer.pageCount }
-
-    private fun openRenderer(file: File): PdfRenderer {
-        //File descriptor of the PDF.
-        val fileDescriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
-
-        // This is the PdfRenderer we use to render the PDF.
-        return PdfRenderer(fileDescriptor)
-    }
+class PdfPageRenderer(
+    private val pdfRenderer: PdfRenderer,
+    private val quality: PdfPageQuality
+) {
+    fun getPageCount() = pdfRenderer.pageCount
 
     fun render(position: Int, onPageRendered: (Bitmap) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             runCatching {
                 renderPage(position)
-            }.onSuccess {
+            }.onSuccess { page ->
                 withContext(Dispatchers.Main) {
-                    onPageRendered(it)
+                    onPageRendered(page)
                 }
             }
         }

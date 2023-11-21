@@ -1,6 +1,9 @@
 package de.artelsv.pdfreader.controller
 
 import android.content.Context
+import android.graphics.pdf.PdfRenderer
+import android.os.ParcelFileDescriptor
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -8,6 +11,7 @@ import de.artelsv.pdfreader.utils.PdfPageQuality
 import de.artelsv.pdfreader.view.ZoomableRecyclerView
 import de.artelsv.pdfreader.view.adapter.DefaultPdfPageAdapter
 import java.io.File
+import java.io.IOException
 
 class PdfViewControllerImpl(
     context: Context
@@ -18,9 +22,19 @@ class PdfViewControllerImpl(
     private var onPageChangedListener: (page: Int, total: Int) -> Unit = { _, _ -> }
     private var lastVisiblePosition = -1
 
-    override fun setup(file: File) {
+    override fun setup(file: File, onError: (e: Throwable) -> Unit) {
         file.deleteOnExit()
-        view.adapter = DefaultPdfPageAdapter(file, pageQuality)
+        val fileDescriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
+
+        try {
+            view.adapter = DefaultPdfPageAdapter(PdfRenderer(fileDescriptor), pageQuality)
+        } catch (e: IOException) {
+            Log.e(javaClass.simpleName, e.message.toString())
+            onError(e)
+        } catch (e: SecurityException) {
+            Log.e(javaClass.simpleName, e.message.toString())
+            onError(e)
+        }
     }
 
     override fun setZoomEnabled(isZoomEnabled: Boolean) {

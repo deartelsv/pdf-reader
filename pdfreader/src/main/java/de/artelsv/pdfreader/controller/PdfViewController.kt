@@ -8,7 +8,7 @@ interface PdfViewController {
 
     fun getView(): View
 
-    fun setup(file: File)
+    fun setup(file: File, onError: (e: Throwable) -> Unit)
 
     fun setZoomEnabled(isZoomEnabled: Boolean)
 
