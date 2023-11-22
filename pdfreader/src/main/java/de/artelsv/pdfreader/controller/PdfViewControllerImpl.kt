@@ -43,15 +43,15 @@ class PdfViewControllerImpl(
     }
 
     override fun setZoomFixed(value: Boolean) {
-        view.isFixedZoom = value
+//        view.isFixedZoom = value
     }
 
     override fun setMaxZoom(value: Float) {
-        view.maxZoom = value
+        view.mMaxScaleFactor = value
     }
 
     override fun setMinZoom(value: Float) {
-        view.minZoom = value
+        view.mMinScaleFactor = value
     }
 
     override fun setQuality(quality: PdfPageQuality) {
